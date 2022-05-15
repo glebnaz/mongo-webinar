@@ -3,6 +3,7 @@ package db
 import (
 	"context"
 	"fmt"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"log"
 )
@@ -12,6 +13,36 @@ type StoreController struct {
 
 	db   *mongo.Database
 	coll *mongo.Collection
+}
+
+func (s *StoreController) FindById(ctx context.Context, id string, obj interface{}) error {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (s *StoreController) Find(ctx context.Context, query bson.D, obj interface{}) error {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (s *StoreController) UpdateMany(ctx context.Context, query bson.D, update bson.D) error {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (s *StoreController) UpdateById(ctx context.Context, id string, update bson.D) error {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (s *StoreController) DeleteMany(ctx context.Context, query bson.D) error {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (s *StoreController) DeleteById(ctx context.Context, id string) error {
+	//TODO implement me
+	panic("implement me")
 }
 
 func NewStoreController(cli *mongo.Client, db string, collections string) Store {
@@ -45,5 +76,6 @@ func (s *StoreController) InsertMany(ctx context.Context, obj []interface{}) (id
 	for _, id := range res.InsertedIDs {
 		ids = append(ids, fmt.Sprintf("%v", id))
 	}
+
 	return
 }
