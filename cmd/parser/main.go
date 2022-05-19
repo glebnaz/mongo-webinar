@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/glebnaz/mongo-webinar/internal/db"
 	"github.com/glebnaz/mongo-webinar/internal/model"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"io"
@@ -76,6 +77,7 @@ func main() {
 			Value:    val.Value,
 			Previous: val.Previous,
 			Date:     time.Now().Unix(),
+			ID:       primitive.NewObjectID(),
 		}
 		id, err := store.InsertOne(ctx, curr)
 		if err != nil {

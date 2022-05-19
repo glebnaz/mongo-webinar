@@ -23,7 +23,10 @@ func (c *Controller) InsertOne(ctx context.Context, obj interface{}) (id string,
 		return
 	}
 
-	id = res.InsertedID.(string)
+	id, ok := res.InsertedID.(string)
+	if !ok {
+		return "", nil
+	}
 	return
 }
 
