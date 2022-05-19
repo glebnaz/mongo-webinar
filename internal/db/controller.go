@@ -16,33 +16,59 @@ type StoreController struct {
 }
 
 func (s *StoreController) FindById(ctx context.Context, id string, obj interface{}) error {
-	//TODO implement me
-	panic("implement me")
+	filter := bson.M{"_id": id}
+	err := s.coll.FindOne(ctx, filter).Decode(obj)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (s *StoreController) Find(ctx context.Context, query bson.D, obj interface{}) error {
-	//TODO implement me
-	panic("implement me")
+	cursor, err := s.coll.Find(ctx, query)
+	if err != nil {
+		return err
+	}
+
+	err = cursor.Decode(obj)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (s *StoreController) UpdateMany(ctx context.Context, query bson.D, update bson.D) error {
-	//TODO implement me
-	panic("implement me")
+	_, err := s.coll.UpdateMany(ctx, query, update)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (s *StoreController) UpdateById(ctx context.Context, id string, update bson.D) error {
-	//TODO implement me
-	panic("implement me")
+	filter := bson.M{"_id": id}
+	_, err := s.coll.UpdateOne(ctx, filter, update)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (s *StoreController) DeleteMany(ctx context.Context, query bson.D) error {
-	//TODO implement me
-	panic("implement me")
+	_, err := s.coll.DeleteMany(ctx, query)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (s *StoreController) DeleteById(ctx context.Context, id string) error {
-	//TODO implement me
-	panic("implement me")
+	filter := bson.M{"_id": id}
+	_, err := s.coll.DeleteOne(ctx, filter)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func NewStoreController(cli *mongo.Client, db string, collections string) Store {
