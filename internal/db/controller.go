@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+	"github.com/glebnaz/mongo-webinar/internal/model"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -18,15 +19,20 @@ type Controller struct {
 	coll *mongo.Collection
 }
 
-func (c *Controller) Find(ctx context.Context, filter bson.D, obj interface{}) (err error) {
+func (c *Controller) Find(ctx context.Context, filter bson.D) (curr []model.Currency, err error) {
+	ctx = context.Background()
 	cursor, err := c.coll.Find(ctx, filter)
 	if err != nil {
 		return
 	}
 
-	err = cursor.Decode(&obj)
-	if err != nil {
-		return
+	for cursor.Next(ctx) {
+		var res model.Currency
+		err = cursor.Decode(&res)
+		if err != nil {
+			return
+		}
+		curr = append(curr, res)
 	}
 
 	return

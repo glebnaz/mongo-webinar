@@ -14,8 +14,15 @@ type ReqGet struct {
 	CharCode  string `json:"char_code"`
 }
 
+//мой телеграм канал
+// https://t.me/glebnaz_talks
+
+//опрос от моих хороших друзей
+// https://forms.gle/gHJzwqMPvp9V9hXL7
+
 func main() {
 	e := echo.New()
+	e.Debug = true
 
 	cli, err := mongo.NewClient()
 	if err != nil {
@@ -44,12 +51,15 @@ func main() {
 			{"char_code", req.CharCode},
 		}
 
-		var curencies []model.Currency
+		curencies := make([]model.Currency, 0)
 
-		if err := store.Find(c.Request().Context(), filter, &curencies); err != nil {
+		curencies, err := store.Find(c.Request().Context(), filter)
+		if err != nil {
 			return err
 		}
 
 		return c.JSON(200, curencies)
 	})
+
+	e.Logger.Fatal(e.Start(":8080"))
 }
