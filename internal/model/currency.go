@@ -1,7 +1,7 @@
 package model
 
 type Currency struct {
-	ID       string  `json:"ID" bson:"id"`
+	ID       string  `json:"ID" bson:"_id"`
 	NumCode  string  `json:"NumCode" bson:"num_code"`
 	CharCode string  `json:"CharCode" bson:"char_code"`
 	Nominal  int     `json:"Nominal" bson:"nominal"`
